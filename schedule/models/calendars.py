@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
+
 from django.contrib.contenttypes import generic
 from django.db import models
+from cms.models import CMSPlugin
 from django.db.models import Q
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
@@ -237,3 +239,9 @@ class CalendarRelation(models.Model):
 
     def __unicode__(self):
         return u'%s - %s' %(self.calendar, self.content_object)
+    
+#conditional Django cms integration
+#try:
+
+#except ImportError:
+#    pass

@@ -1,0 +1,17 @@
+{% load i18n %}
+<h1>calendar</h1>
+{{ events }}
+{% for event in events %}
+<p>Starts</p>
+<p>{% blocktrans with event.start|date:_("DATETIME_FORMAT") as start_date %}{{ start_date }}{% endblocktrans %}</p>
+
+<p>Ends</p>
+<p>{% blocktrans with event.end|date:_("DATETIME_FORMAT") as end_date %}{{ end_date }}{% endblocktrans %}</p>
+<a href={{ event.get_absolute_url }}> {{ event.title }}</a><br>
+    {{ event.description }}<br>
+    {{ event.creator }}<br>
+<hr>    
+{% endfor %}
+
+
+

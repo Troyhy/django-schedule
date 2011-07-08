@@ -444,3 +444,6 @@ class Occurrence(models.Model):
 
     def __eq__(self, other):
         return self.event == other.event and self.original_start == other.original_start and self.original_end == other.original_end
+
+
+
