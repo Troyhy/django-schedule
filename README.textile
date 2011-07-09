@@ -1,6 +1,7 @@
 h1. Django-schedule
 
 A calendaring/scheduling application, featuring:
+ * Django-CMS integration coming -Troyhy
 
  * one-time and recurring events
  * calendar exceptions (occurrences changed or cancelled)
