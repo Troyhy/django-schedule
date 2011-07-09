@@ -11,5 +11,6 @@
     <input type="button" value="{% trans "Cancel" %}" onclick="window.location='{{next}}'"/>
 
     <input type="hidden" name="next" value="{{next|default:""}}"/>
+    {% csrf_token %}
 </form>
 {% endblock %}

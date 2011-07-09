@@ -252,6 +252,9 @@ def create_or_edit_event(request, calendar_slug, event_id=None, next=None,
     extra_context = extra_context or {}
     date = coerce_date_dict(request.GET)
     initial_data = None
+    
+    
+  
     if date:
         try:
             start = datetime.datetime(**date)
@@ -278,6 +281,8 @@ def create_or_edit_event(request, calendar_slug, event_id=None, next=None,
         if instance is None:
             event.creator = request.user
             event.calendar = calendar
+            event.save()
+            event.copy_content_from('[Default]')
         event.save()
         next = next or reverse('event', args=[event.id])
         next = get_next_url(request, next)
@@ -286,6 +291,7 @@ def create_or_edit_event(request, calendar_slug, event_id=None, next=None,
     next = get_next_url(request, next)
     context = {
         "form": form,
+        "event": instance,
         "calendar": calendar,
         "next":next
     }

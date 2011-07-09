@@ -1,6 +1,6 @@
 {% extends "schedule/event_form_base.html" %}
 {% load i18n %}
-
+{% load placeholder_tags %}
 {% block body %}
 <b>{% trans "Create or change event. All fields are required." %}</b>
 <br/><br/>
@@ -12,6 +12,10 @@
 <input type="submit" value="{% trans "Save" %}">
 <input type="button" value="{% trans "Cancel" %}" onclick="window.location='{{next}}'"/>
 <input type="hidden" name="next" value="{{next|default:""}}"/>
+<input type="checkbox" name="default" label="copy default">
 {% csrf_token %}
 </form>
+<br>
+{% render_placeholder event.content  %}
+
 {% endblock %}

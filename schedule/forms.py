@@ -24,14 +24,14 @@ class EventForm(SpanForm):
     
     class Meta:
         model = Event
-        exclude = ('creator', 'created_on', 'calendar')
+        exclude = ('creator', 'created_on', 'calendar','content')
         
 
 class OccurrenceForm(SpanForm):
     
     class Meta:
         model = Occurrence
-        exclude = ('original_start', 'original_end', 'event', 'cancelled')
+        exclude = ('original_start', 'original_end', 'event', 'cancelled', 'content')
 
 
 class RuleForm(forms.ModelForm):

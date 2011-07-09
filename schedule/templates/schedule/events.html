@@ -1,17 +1,54 @@
 {% load i18n %}
-<h1>calendar</h1>
-{{ events }}
+{% load placeholder_tags %}
+{% load sekizai_tags %}
+{% addtoblock "js" %}
+    this.tooltip = function(){  
+        /* CONFIG */        
+            xOffset = 10;
+            yOffset = 20;       
+            // these 2 variable determine popup's distance from the cursor
+            // you might want to adjust to get the right result     
+        /* END CONFIG */        
+        $("a.tooltip").hover(function(e){                                             
+            this.t = this.title;
+            this.title = "";                                      
+            $("body").append("<p id='tooltip'>"+ this.t +"</p>");
+            $("#tooltip")
+                .css("top",(e.pageY - xOffset) + "px")
+                .css("left",(e.pageX + yOffset) + "px")
+                .fadeIn("fast");        
+        },
+        function(){
+            this.title = this.t;        
+            $("#tooltip").remove();
+        }); 
+        $("a.tooltip").mousemove(function(e){
+            $("#tooltip")
+                .css("top",(e.pageY - xOffset) + "px")
+                .css("left",(e.pageX + yOffset) + "px");
+        });         
+    };   
+    
+    // starting the script on page load
+    $(document).ready(function(){
+        tooltip();
+    });
+{% endaddtoblock "js" %}
+
+<div class="event_feed">
+<ul>
 {% for event in events %}
-<p>Starts</p>
-<p>{% blocktrans with event.start|date:_("DATETIME_FORMAT") as start_date %}{{ start_date }}{% endblocktrans %}</p>
-
-<p>Ends</p>
-<p>{% blocktrans with event.end|date:_("DATETIME_FORMAT") as end_date %}{{ end_date }}{% endblocktrans %}</p>
-<a href={{ event.get_absolute_url }}> {{ event.title }}</a><br>
-    {{ event.description }}<br>
-    {{ event.creator }}<br>
-<hr>    
+<li>
+<a href={{ event.get_absolute_url }} title="{{ event.description }}" style="">
+    <dl>
+  <dt>{% blocktrans with event.start|date:_("DATETIME_FORMAT") as start_date %}{{ start_date }}{% endblocktrans %}
+  </dt>
+  <dd>  {{ event.title }}<span class="author">{{ event.event.creator }}</span></dd>
+</dl>
+</a>
+</li>    
 {% endfor %}
-
+</ul>
+</div>
 
 

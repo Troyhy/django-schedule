@@ -1,7 +1,7 @@
 {% extends "schedule/base.html" %}
 {% load i18n %}
 {% load scheduletags %}
-
+{% load placeholder_tags %}
 {% block body %}
 <div class="navigation">
   <a href="{% url day_calendar occurrence.event.calendar.slug %}{% querystring_for_date occurrence.start 3 %}">
@@ -38,5 +38,6 @@
 <h3>Description</h3>
 <p>{{occurrence.description}}</p>
 {% endif %}
+{% render_placeholder occurrence.content  %}
 
 {% endblock %}

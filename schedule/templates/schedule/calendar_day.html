@@ -28,13 +28,14 @@
       </a>
     </div>
 </div>
-<div style="position:absolute;">
-    <div style="position:absolute;left:100px;">
-      {% daily_table periods.day 420 120 600 0 12 %}
+<div style="position:relative;" class="clearfix" >
+ 
+    <div  style="position:relative; clear:left;float:left;" >
+      {% daily_table periods.day 220 60 600 0 12 %}
     </div>
 
-    <div style="position:absolute;left:600px;">
-      {% daily_table periods.day 420 120 600 12 24 %}
+    <div  style="position:relative; float: left; margin-left:230px;">
+      {% daily_table periods.day 220 60 600 12 24 %}
     </div>
 </div>
 

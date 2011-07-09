@@ -12,8 +12,21 @@ class CMSCalendarEvents(CMSPluginBase):
     render_template = "schedule/events.html"
 
     def render(self, context, instance, placeholder):
+        
+        start_time = datetime.now()
+        if instance.show_today == True:
+            start_time = start_time.replace(hour=0, minute=0, second=0)
+        else:
+            start_time = start_time -timedelta(hours=1)
+            
+        if instance.instances == 0:
+            # show all
+            events = instance.calendar_plug.occurrences_after(start_time)
+        else:
+            events = instance.calendar_plug.occurrences_after(start_time)
+            
         context.update({
-            'events':instance.calendar_plug.occurrences_after(datetime.now()-timedelta(hours=1)),
+            'events':events,
             'object':instance,
             'placeholder':placeholder
         })

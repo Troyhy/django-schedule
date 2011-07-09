@@ -13,6 +13,9 @@ from schedule.models.rules import Rule
 from schedule.models.calendars import Calendar
 from schedule.utils import OccurrenceReplacer
 
+from cms.models.fields import PlaceholderField
+from cms.models.placeholdermodel import Placeholder
+
 class EventManager(models.Manager):
 
     def get_for_object(self, content_object, distinction=None, inherit=True):
@@ -27,6 +30,7 @@ class Event(models.Model):
     end = models.DateTimeField(_("end"),help_text=_("The end time must be later than the start time."))
     title = models.CharField(_("title"), max_length = 255)
     description = models.TextField(_("description"), null = True, blank = True)
+    content =  PlaceholderField('testslot', blank=True, help_text="This is the testimonial text itself.")
     creator = models.ForeignKey(User, null = True, verbose_name=_("creator"))
     created_on = models.DateTimeField(_("created on"), default = datetime.datetime.now)
     rule = models.ForeignKey(Rule, null = True, blank = True, verbose_name=_("rule"), help_text=_("Select '----' for a one time only event."))
@@ -39,7 +43,24 @@ class Event(models.Model):
         verbose_name_plural = _('events')
         app_label = 'schedule'
 	get_latest_by = 'start' 
-
+    
+    
+    
+    def copy_content_from(self,name):
+        init_str=name
+        if init_str is not None:
+            default_event=None
+            from  cms.utils.copy_plugins import copy_plugins_to
+            ev_objects = Event.objects.filter(title__exact = '[Default]')
+            if len(ev_objects) > 0:
+                self.save()
+                default_event = ev_objects[0]
+                plugin_list = list(default_event.content.cmsplugin_set.all().order_by('tree_id', '-rght'))
+              #  self.content = Placeholder()
+                copy_plugins_to(plugin_list,self.content)
+                self.content.save()
+                
+                   
     def __unicode__(self):
         date_format = u'l, %s' % ugettext("DATE_FORMAT")
         return ugettext('%(title)s: %(start)s-%(end)s') % {
@@ -352,6 +373,7 @@ class Occurrence(models.Model):
     event = models.ForeignKey(Event, verbose_name=_("event"))
     title = models.CharField(_("title"), max_length=255, blank=True, null=True)
     description = models.TextField(_("description"), blank=True, null=True)
+    content =  PlaceholderField('occurence', blank=True, help_text="This is the testimonial text itself.")
     start = models.DateTimeField(_("start"))
     end = models.DateTimeField(_("end"))
     cancelled = models.BooleanField(_("cancelled"), default=False)
@@ -363,12 +385,14 @@ class Occurrence(models.Model):
         verbose_name_plural = _("occurrences")
         app_label = 'schedule'
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs):  
         super(Occurrence, self).__init__(*args, **kwargs)
         if self.title is None:
             self.title = self.event.title
         if self.description is None:
             self.description = self.event.description
+        if self.content is None:
+            self.content = self.event.content
 
 
     def moved(self):
