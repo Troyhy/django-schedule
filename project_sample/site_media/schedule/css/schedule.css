@@ -153,7 +153,8 @@ td.daynumber div.header {
 }
 
 td.daynumber div.header a {
-  padding:1px 5px 1px 90px;
+  padding:1px 1px 1px 56px;
+  
 }
 
 td.small div.header a {
@@ -166,19 +167,21 @@ td.daynumber div.eventcell {
     clear:both;
     cursor:pointer;
     margin:0 1px 3px 1px;
-    overflow:auto;
+    overflow:hidden;
 }
 
 td.daynumber div.starttime {
     float:left;
-    width:40px;
+    width:auto;
+    font-size: 8px;
 }
 
 td.daynumber div.eventdesc {
     float:left;
     height:1em;
     overflow:hidden;
-    width:75px;
+    width: 50px;
+    white-space: nowrap;
 }
 
 /**** WEEK VIEW ****/

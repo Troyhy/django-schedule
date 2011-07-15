@@ -33,8 +33,11 @@
     <img border="0" src="{{ MEDIA_URL }}schedule/img/delete.png" alt="{% trans "Delete" %}"/>
   </a>
 </div>
-<h2 align="center">{{event.title}}</h2>
-<dl>
+<h1 align="center">{{event.title}}</h1>
+<span id="current_event" style="display: none;">
+{{occurrence.title}}-{% blocktrans with occurrence.start|date:_("DATETIME_FORMAT") as start_date %}{{ start_date }}{% endblocktrans %}
+</span>
+
 <dl>
   <dt> <h3>Starts @</h3></dt>  <dd>  {% blocktrans with event.start|date:_("DATETIME_FORMAT") as start_date %}{{ start_date }}{% endblocktrans %}</dd>
   <dt> <h3>Ends @</h3></dt> <dd>{% blocktrans with event.end|date:_("DATETIME_FORMAT") as end_date %}{{ end_date }}{% endblocktrans %}</dd>

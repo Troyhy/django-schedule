@@ -23,12 +23,19 @@ class CMSCalendarEvents(CMSPluginBase):
             # show all
             events = instance.calendar_plug.occurrences_after(start_time)
         else:
-            events = instance.calendar_plug.occurrences_after(start_time)
-            
+            events=list()
+            loops = instance.instances
+            for object in instance.calendar_plug.occurrences_after(start_time):
+                loops = loops -1
+                events.append(object)  
+                if loops == 0:
+                    break
+
         context.update({
             'events':events,
             'object':instance,
-            'placeholder':placeholder
+            'placeholder': placeholder,
+            'instances': instance.instances
         })
         return context
 

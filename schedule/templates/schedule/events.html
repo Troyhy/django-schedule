@@ -2,6 +2,7 @@
 {% load placeholder_tags %}
 {% load sekizai_tags %}
 {% addtoblock "js" %}
+<script type="text/javascript"> 
     this.tooltip = function(){  
         /* CONFIG */        
             xOffset = 10;
@@ -33,6 +34,7 @@
     $(document).ready(function(){
         tooltip();
     });
+    </script> 
 {% endaddtoblock "js" %}
 
 <div class="event_feed">
