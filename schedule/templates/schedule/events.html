@@ -2,55 +2,54 @@
 {% load placeholder_tags %}
 {% load sekizai_tags %}
 {% addtoblock "js" %}
+<script type="text/javascript" src="{{ MEDIA_URL }}/schedule/js/jquery.qtip-1.0.0-rc3.min.js"></script>
+{% endaddtoblock "js" %}
+
+{% addtoblock "js" %}
 <script type="text/javascript"> 
-    this.tooltip = function(){  
-        /* CONFIG */        
-            xOffset = 10;
-            yOffset = 20;       
-            // these 2 variable determine popup's distance from the cursor
-            // you might want to adjust to get the right result     
-        /* END CONFIG */        
-        $("a.tooltip").hover(function(e){                                             
-            this.t = this.title;
-            this.title = "";                                      
-            $("body").append("<p id='tooltip'>"+ this.t +"</p>");
-            $("#tooltip")
-                .css("top",(e.pageY - xOffset) + "px")
-                .css("left",(e.pageX + yOffset) + "px")
-                .fadeIn("fast");        
-        },
-        function(){
-            this.title = this.t;        
-            $("#tooltip").remove();
-        }); 
-        $("a.tooltip").mousemove(function(e){
-            $("#tooltip")
-                .css("top",(e.pageY - xOffset) + "px")
-                .css("left",(e.pageX + yOffset) + "px");
-        });         
-    };   
-    
-    // starting the script on page load
-    $(document).ready(function(){
-        tooltip();
-    });
-    </script> 
+
+ $(document).ready(function(){
+    $('.tip').qtip({ 
+    		
+			style: { 
+			      width: 400,
+			      padding: 5,
+			 
+			      color: 'black',
+			      textAlign: 'center',
+			  
+			 	name: 'blue',
+				tip: true
+			},
+			position: {
+			      corner: {
+			         target: 'bottomLeft',
+			         tooltip: 'topRight'
+			      }
+			}
+    })
+ });
+</script>
 {% endaddtoblock "js" %}
 
 <div class="event_feed">
-<ul>
+
 {% for event in events %}
-<li>
-<a href={{ event.get_absolute_url }} title="{{ event.description }}" style="">
-    <dl>
-  <dt>{% blocktrans with event.start|date:_("DATETIME_FORMAT") as start_date %}{{ start_date }}{% endblocktrans %}
-  </dt>
-  <dd>  {{ event.title }}<span class="author">{{ event.event.creator }}</span></dd>
-</dl>
-</a>
-</li>    
+
+<!-- a href={{ event.get_absolute_url }} title="{{ event.description }}" style="" -->
+{% if event.description %}
+ <div class="event_object tip" onclick="location.href='{{ event.get_absolute_url }}';" style="cursor:pointer;" title="{{ event.description }}">
+{% else %}
+ <div class="event_object" onclick="location.href='{{ event.get_absolute_url }}';" style="cursor:pointer;">
+{% endif %}
+ 
+ <ul>
+    <li class=event_date>{% blocktrans with event.start|date:_("DATETIME_FORMAT") as start_date %}{{ start_date }}{% endblocktrans %} {% if event.description %} * {% endif %}</li>
+    <li class=event_title>{{ event.title }}<span class="author">{{ event.event.creator }}</span></li>
+  </ul>
+</div> 
+<!--  /a -->   
 {% endfor %}
-</ul>
 </div>
 
 

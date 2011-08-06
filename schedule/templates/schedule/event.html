@@ -39,17 +39,26 @@
 </span>
 
 <dl>
-  <dt> <h3>Starts @</h3></dt>  <dd>  {% blocktrans with event.start|date:_("DATETIME_FORMAT") as start_date %}{{ start_date }}{% endblocktrans %}</dd>
-  <dt> <h3>Ends @</h3></dt> <dd>{% blocktrans with event.end|date:_("DATETIME_FORMAT") as end_date %}{{ end_date }}{% endblocktrans %}</dd>
-  <dt> <h3>Reoccurs @</h3></dt>
-  <dd>
-  {% if event.rule %}
+  <dt> <h2>Starts @</h2></dt>  <dd>  {% blocktrans with event.start|date:_("DATETIME_FORMAT") as start_date %}{{ start_date }}{% endblocktrans %}</dd>
+  <dt> <h2>Ends @</h2></dt> <dd>{% blocktrans with event.end|date:_("DATETIME_FORMAT") as end_date %}{{ end_date }}{% endblocktrans %}</dd>
   
-{{ event.rule }} until {% blocktrans with event.end_recurring_period|date:_("DATETIME_FORMAT") as end_recurring_date %}{{ end_recurring_date }}{% endblocktrans %}</td>
-{% else %}
-    {% trans "Never. This is a 'one time only' event." %}
-{% endif %}
+  {% if event.rule %}
+  <dt> <h2>Reoccurs @</h2></dt>
+  <dd>
+{{ event.rule }} until {% blocktrans with event.end_recurring_period|date:_("DATETIME_FORMAT") as end_recurring_date %}{{ end_recurring_date }}{% endblocktrans %}
  </dd>
+{% endif %}   
+
 </dl>
-{% render_placeholder event.content  %}
+
+<ul>
+  <li> <h2>Begin: {% blocktrans with event.start|date:_("DATETIME_FORMAT") as start_date %}{{ start_date }}{% endblocktrans %} </h2></li>
+  <li> <h2>Ende: {% blocktrans with event.end|date:_("DATETIME_FORMAT") as end_date %}{{ end_date }}{% endblocktrans %}</h2> </li> 
+  {% if event.rule %}
+  <li> <h2>Reoccurs : {{ event.rule }} until {% blocktrans with event.end_recurring_period|date:_("DATETIME_FORMAT") as end_recurring_date %}{{ end_recurring_date }}{% endblocktrans %}
+  </h2></li>
+{% endif %}
+</ul>
+
+{% render_placeholder event.content  }
 {% endblock %}
