@@ -1,33 +1,29 @@
 {% load i18n %}
 {% load placeholder_tags %}
 {% load sekizai_tags %}
+{% addtoblock "css" %}
+<link href="{{ MEDIA_URL }}schedule/css/jquery.qtip.min.css" media="screen, projection" rel="stylesheet" type="text/css" />
+{% endaddtoblock "css" %}
 {% addtoblock "js" %}
-<script type="text/javascript" src="{{ MEDIA_URL }}/schedule/js/jquery.qtip-1.0.0-rc3.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}schedule/js/jquery.qtip.min.js"></script>
 {% endaddtoblock "js" %}
 
 {% addtoblock "js" %}
 <script type="text/javascript"> 
 
  $(document).ready(function(){
-    $('.tip').qtip({ 
-    		
-			style: { 
-			      width: 400,
-			      padding: 5,
-			 
-			      color: 'black',
-			      textAlign: 'center',
-			  
-			 	name: 'blue',
-				tip: true
-			},
-			position: {
-			      corner: {
-			         target: 'bottomLeft',
-			         tooltip: 'topRight'
-			      }
-			}
-    })
+    $('.tip').qtip({
+    	style: {
+    		width: 400,
+    		tip: true,
+    		classes: "ui-tooltip-blue"
+    	},
+    	position: {
+    		at: "bottom left",
+    		my: "top right"
+    	}
+    }
+)
  });
 </script>
 {% endaddtoblock "js" %}
