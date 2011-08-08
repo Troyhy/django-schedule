@@ -30,7 +30,7 @@ class Event(models.Model):
     end = models.DateTimeField(_("end"),help_text=_("The end time must be later than the start time."))
     title = models.CharField(_("title"), max_length = 255)
     description = models.TextField(_("description"), null = True, blank = True)
-    content =  PlaceholderField('testslot', blank=True, help_text="This is the testimonial text itself.")
+    content =  PlaceholderField('occurence', blank=True, help_text="This is the testimonial text itself.")
     creator = models.ForeignKey(User, null = True, verbose_name=_("creator"))
     created_on = models.DateTimeField(_("created on"), default = datetime.datetime.now)
     rule = models.ForeignKey(Rule, null = True, blank = True, verbose_name=_("rule"), help_text=_("Select '----' for a one time only event."))
@@ -59,8 +59,28 @@ class Event(models.Model):
               #  self.content = Placeholder()
                 copy_plugins_to(plugin_list,self.content)
                 self.content.save()
-                
-                   
+    
+    def duplicate_from(self,event):    
+        self.start = event.start
+        self.end = event.end
+        self.title = "copy of - %s"%event.title
+        self.description = event.description
+        
+        self.creator = event.creator
+        self.created_on = datetime.datetime.now()
+        self.rule = event.rule
+        self.end_recurring_period = event.end_recurring_period
+        self.calendar = event.calendar
+ 
+        from  cms.utils.copy_plugins import copy_plugins_to
+       
+        self.save()
+        default_event = event
+        plugin_list = list(default_event.content.cmsplugin_set.all().order_by('tree_id', '-rght'))
+      #  self.content = Placeholder()
+        copy_plugins_to(plugin_list,self.content)
+        self.content.save()
+               
     def __unicode__(self):
         date_format = u'l, %s' % ugettext("DATE_FORMAT")
         return ugettext('%(title)s: %(start)s-%(end)s') % {
@@ -453,6 +473,10 @@ class Occurrence(models.Model):
             'minute': self.start.minute,
             'second': self.start.second,
         })
+        
+    def get_edit_event_url(self): 
+        return reverse('edit_event',kwargs={ 'calendar_slug':self.event.calendar.slug, 'event_id':self.event.id })   
+       
 
     def __unicode__(self):
         return ugettext("%(start)s to %(end)s") % {
