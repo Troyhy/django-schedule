@@ -3,6 +3,8 @@
 {% load scheduletags %}
 {% load placeholder_tags %}
 {% block body %}
+{% if user.is_authenticated %}
+
 <div class="navigation">
   <a href="{% url day_calendar occurrence.event.calendar.slug %}{% querystring_for_date occurrence.start 3 %}">
     Day
@@ -18,11 +20,11 @@
 	<a href="{{ back_url }}"><img border="0" src="{{ MEDIA_URL }}schedule/img/left_mod.png" alt="{% trans "Back" %}"></a> &nbsp;
 	{% endif %}
     
-    {% if user.is_authenticated %}
 	<a href="/admin/schedule/event/{{occurrence.event.id}}/"><img border="0" src="{{ MEDIA_URL }}schedule/img/pencil.png" alt="{% trans "Change" %}"></a> &nbsp;
 	<a href="{{occurrence.get_cancel_url}}"><img border="0" src="{{ MEDIA_URL }}schedule/img/delete.png" alt="{% trans "Cancel" %}"></a>
-    {% endif %}
 </div>
+{% endif %}
+
 <h1 align="center">{{occurrence.title}}</h1>
 <span id="current_event" style="display: none;">
 {{occurrence.title}} - {% blocktrans with occurrence.start|date:_("DATETIME_FORMAT") as start_date %}{{ start_date }}{% endblocktrans %}
@@ -37,8 +39,6 @@
   </h2></li>
 {% endif %}
 </ul>
-
-<h1>{{ request.LANGUAGE_CODE }}</h1>
 
 {% render_placeholder occurrence.content  %}
 
