@@ -29,16 +29,14 @@
 <span id="current_event" style="display: none;">
 {{occurrence.title}} - {% blocktrans with occurrence.start|date:_("DATETIME_FORMAT") as start_date %}{{ start_date }}{% endblocktrans %}
 </span>
+<div class="clearfix">
+  <p><span class=event-start>Begin:</span><span class="event-text"> {% blocktrans with occurrence.start|date:_("DATETIME_FORMAT") as start_date %}{{ start_date }}{% endblocktrans %} </span></p>
+  <p><span class=event-start>Ende:</span><span class="event-text"> {% blocktrans with occurrence.end|date:_("DATETIME_FORMAT") as end_date %}{{ end_date }}{% endblocktrans %}</span></p> 
 
-<ul class="nobullets">
-  <li> <h2>Begin: {% blocktrans with occurrence.start|date:_("DATETIME_FORMAT") as start_date %}{{ start_date }}{% endblocktrans %} </h2></li>
-  <li> <h2>Ende: {% blocktrans with occurrence.end|date:_("DATETIME_FORMAT") as end_date %}{{ end_date }}{% endblocktrans %}</h2> </li> 
-  
   {% if occurrence.rule %}
-  <li> <h2>Reoccurs : {{ occurrence.rule }} until {% blocktrans with occurrence.end_recurring_period|date:_("DATETIME_FORMAT") as end_recurring_date %}{{ end_recurring_date }}{% endblocktrans %}
-  </h2></li>
+  <p><span class=event-start>Reoccurs:</span><span class="event-text"> {{ occurrence.rule }} until {% blocktrans with occurrence.end_recurring_period|date:_("DATETIME_FORMAT") as end_recurring_date %}{{ end_recurring_date }}{% endblocktrans %} </span></p>
   {% endif %}
-</ul>
+</div>
 
 {% render_placeholder occurrence.content  %}
 
