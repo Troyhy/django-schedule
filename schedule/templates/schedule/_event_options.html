@@ -4,16 +4,16 @@
 <span class="edit">
 {% if occurrence.event.rule %}
     {% if occurrence.id %}
-        <a href="#" onclick="openURL('{{ edit_occurrence }}?next={{ here }}', event);">
+        <a href="#" onclick="openURL('{{ edit_occurrence }}?next={{ here }}&edit', event);">
             <img border="0" src="{{ MEDIA_URL }}schedule/img/pencil.png" alt="Edit Event">
         </a>
     {% else %}
-        <a href="#" onclick="openEditDialog(this, '{{ edit_occurrence }}?next={{ here }}', '{{ edit_event }}?next={{ here }}', event);">
+        <a href="#" onclick="openEditDialog(this, '{{ edit_occurrence }}?next={{ here }}&edit', '{{ edit_event }}?next={{ here }}', event);">
             <img border="0" src="{{ MEDIA_URL }}schedule/img/pencil.png" alt="Edit Event">
         </a>
     {% endif %}
 {% else %}
-    <a href="#" onclick="openURL('{{ edit_event }}?next={{ here }}', event);">
+    <a href="#" onclick="openURL('{{ edit_event }}?next={{ here }}&edit', event);">
         <img border="0" src="{{ MEDIA_URL }}schedule/img/pencil.png" alt="Edit Event">
     </a>
 {% endif %}

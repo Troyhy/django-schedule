@@ -1,9 +1,10 @@
 {% extends "schedule/base.html" %}
-
+{% load sekizai_tags %}
 {% block extra_head %}
     {{ block.super }}
-    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.timePicker.js"></script>
-    <script type="text/javascript">
+{% addtoblock "js" %}<script type="text/javascript" src="{{ MEDIA_URL }}schedule/js/jquery.timePicker.js"></script>{% endaddtoblock "js" %}
+{% addtoblock "js" %}{{ JQUERY_SRC|safe }}{% endaddtoblock "js" %}
+{% addtoblock "js" %}<script type="text/javascript">             
     $(function() {
         $("#id_start_0").datepicker({dateFormat: $.datepicker.ATOM});
         $("#id_end_0").datepicker({dateFormat: $.datepicker.ATOM});
@@ -33,5 +34,6 @@
         });
     });
     </script>
+{% endaddtoblock "js" %}
 {% endblock %}
 
