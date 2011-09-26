@@ -4,9 +4,9 @@
 {% addtoblock "css" %}
 <link href="{{ MEDIA_URL }}schedule/css/jquery.qtip.min.css" media="screen, projection" rel="stylesheet" type="text/css" />
 {% endaddtoblock "css" %}
-{% addtoblock "js" %}
-<script type="text/javascript" src="{{ MEDIA_URL }}schedule/js/jquery.qtip.min.js"></script>
-{% endaddtoblock "js" %}
+
+{% addtoblock "js" %}{{ JQUERY_SRC|safe }}{% endaddtoblock "js" %}
+{% addtoblock "js" %}<script type="text/javascript" src="{{ MEDIA_URL }}schedule/js/jquery.qtip.min.js"></script>{% endaddtoblock "js" %}
 
 {% addtoblock "js" %}
 <script type="text/javascript"> 
@@ -39,9 +39,9 @@
  <div class="event_object" onclick="location.href='{{ event.get_absolute_url }}';" style="cursor:pointer;">
 {% endif %}
  
- <ul>
-    <li class=event_date>{% blocktrans with event.start|date:_("DATETIME_FORMAT") as start_date %}{{ start_date }}{% endblocktrans %} {% if event.description %} * {% endif %}</li>
-    <li class=event_title>{{ event.title }}<span class="author">{{ event.event.creator }}</span></li>
+ <ul class="schedule">
+    <li class="event_date">{% blocktrans with event.start|date:_("DATETIME_FORMAT") as start_date %}{{ start_date }}{% endblocktrans %} {% if event.description %} * {% endif %}</li>
+    <li class="event_title">{{ event.title }}<span class="author">{{ event.event.creator }}</span></li>
   </ul>
 </div> 
 <!--  /a -->   
