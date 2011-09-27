@@ -1,8 +1,8 @@
 h1. Django-schedule
 
 A calendaring/scheduling application, featuring:
- * Django-CMS integration coming -Troyhy
-
+ * Django-CMS integration -Troyhy
+ * Posiibility to make default event and to copy event.
  * one-time and recurring events
  * calendar exceptions (occurrences changed or cancelled)
  * occurrences accessible through Event API and Period API
@@ -71,6 +71,10 @@ Default:
     get_events(request, calendar):
         return calendar.event_set.all()
 </pre>
+
+h2. Django-CMS
+There is cmsplugin and cms app-hook available. Cmsplugin provides listing of upcoming events and app-hook gives ability to embedd schedule app into CMS
+
 
 h2. urls.py
 
