@@ -73,6 +73,7 @@ Default:
 </pre>
 
 h2. Django-CMS
+
 There is cmsplugin and cms app-hook available. Cmsplugin provides listing of upcoming events and app-hook gives ability to embedd schedule app into CMS
 
 
